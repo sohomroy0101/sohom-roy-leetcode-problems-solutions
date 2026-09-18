@@ -1,0 +1,37 @@
+// Leetcode Problem 129: Sum Root to Leaf Numbers
+// C++ CODE
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+private:
+    int dfs(TreeNode* node, int currentSum) {
+        if (!node) {
+            return 0;
+        }
+
+        // Build the accumulated number up to the current node
+        currentSum = currentSum * 10 + node->val;
+
+        // Leaf node reached: return the completed path number
+        if (!node->left && !node->right) {
+            return currentSum;
+        }
+
+        // Sum the results from left and right subtrees
+        return dfs(node->left, currentSum) + dfs(node->right, currentSum);
+    }
+
+public:
+    int sumNumbers(TreeNode* root) {
+        return dfs(root, 0);
+    }
+};
